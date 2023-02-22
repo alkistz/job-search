@@ -1,1 +1,5 @@
-const numbers = [1, 2, 3, 4, 5];
+const interval = setInterval(() => {
+  console.log("THis is two seconds after");
+}, 2000);
+
+clearInterval(interval);
