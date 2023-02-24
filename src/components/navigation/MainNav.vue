@@ -40,6 +40,10 @@
 </template>
 
 <script>
+import { mapActions, mapState } from "pinia";
+
+import { useUserStore } from "@/stores/user";
+
 import ActionButton from "@/components/shared/ActionButton.vue";
 import ProfileImage from "@/components/navigation/ProfileImage.vue";
 import TheSubnav from "@/components/navigation/TheSubnav.vue";
@@ -53,7 +57,6 @@ export default {
   },
   data() {
     return {
-      company: "Alkis careers",
       url: "https://careers.google.com/",
       menuItems: [
         { text: "Teams", url: "/" },
@@ -62,10 +65,10 @@ export default {
         { text: "Students", url: "/" },
         { text: "Jobs", url: "/jobs/results" },
       ],
-      isLoggedIn: false,
     };
   },
   computed: {
+    ...mapState(useUserStore, ["isLoggedIn"]),
     headerHeightClass() {
       return {
         "h-16": !this.isLoggedIn,
@@ -74,9 +77,7 @@ export default {
     },
   },
   methods: {
-    loginUser() {
-      this.isLoggedIn = true;
-    },
+    ...mapActions(useUserStore, ["loginUser"]),
   },
 };
 </script>
