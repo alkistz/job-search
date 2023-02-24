@@ -1,19 +1,29 @@
 <template>
   <li class="mb-7">
     <router-link
-      to="/jobs/results/1"
+      :to="jobPageLink"
       class="mx-auto block rounded border-solid border-brand-gray-2 bg-white hover:shadow-gray"
     >
       <div class="mx-8 border-b border-solid border-brand-gray-2 pt-5 pb-2">
-        <h2 class="mb-2 text-2xl">BBQ Administrator</h2>
+        <h2 class="mb-2 text-2xl">
+          {{ job.title }}
+        </h2>
 
         <div class="flex flex-row align-middle">
           <div class="mr-5">
-            <span>Alkis</span>
+            <span>{{ job.organization }}</span>
           </div>
 
           <div>
-            <span>Kordelio</span>
+            <ul>
+              <li
+                v-for="location in job.locations"
+                :key="location"
+                class="mr-5 inline-block"
+              >
+                <span>{{ location }}</span>
+              </li>
+            </ul>
           </div>
         </div>
       </div>
@@ -21,14 +31,16 @@
         <div>
           <h3 class="mt-1 mb-2">Qualifications</h3>
           <ul class="list-disc pl-8">
-            <li>Good with the grill</li>
-            <li>5 years of meat handling experience</li>
-            <li>Experience with butcher price negotiations</li>
-            <li>At least a small beer belly</li>
+            <li
+              v-for="qualification in job.minimumQualifications"
+              :key="qualification"
+            >
+              {{ qualification }}
+            </li>
           </ul>
         </div>
         <div class="mt-2 text-center">
-          <router-link to="/jobs/results/1" class="text-brand-blue-1"
+          <router-link :to="jobPageLink" class="text-brand-blue-1"
             >Expand</router-link
           >
         </div>
@@ -40,5 +52,16 @@
 <script>
 export default {
   name: "JobListing",
+  props: {
+    job: {
+      type: Object,
+      required: true,
+    },
+  },
+  computed: {
+    jobPageLink() {
+      return `/jobs/results/${this.job.id}`;
+    },
+  },
 };
 </script>
