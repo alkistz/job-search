@@ -3,13 +3,6 @@
   <RouterView />
 </template>
 
-<script>
+<script lang="ts" setup>
 import MainNav from "@/components/navigation/MainNav.vue";
-
-export default {
-  name: "App",
-  components: {
-    MainNav,
-  },
-};
 </script>

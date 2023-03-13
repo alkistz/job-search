@@ -26,12 +26,7 @@
         </nav>
         <div class="ml-auto flex h-full items-center">
           <ProfileImage v-if="isLoggedIn" />
-          <ActionButton
-            v-else
-            text="Sign in"
-            type="primary"
-            @click="loginUser"
-          />
+          <ActionButton v-else text="Sign in" @click="loginUser" />
         </div>
       </div>
       <TheSubnav v-if="isLoggedIn" />
@@ -39,45 +34,28 @@
   </header>
 </template>
 
-<script>
-import { mapActions, mapState } from "pinia";
-
+<script lang="ts" setup>
 import { useUserStore } from "@/stores/user";
+import { ref, computed } from "vue";
 
 import ActionButton from "@/components/shared/ActionButton.vue";
 import ProfileImage from "@/components/navigation/ProfileImage.vue";
 import TheSubnav from "@/components/navigation/TheSubnav.vue";
 
-export default {
-  name: "MainNav",
-  components: {
-    ActionButton,
-    ProfileImage,
-    TheSubnav,
-  },
-  data() {
-    return {
-      url: "https://careers.google.com/",
-      menuItems: [
-        { text: "Teams", url: "/teams" },
-        { text: "Locations", url: "/" },
-        { text: "Life at Alkis Corp", url: "/" },
-        { text: "Students", url: "/" },
-        { text: "Jobs", url: "/jobs/results" },
-      ],
-    };
-  },
-  computed: {
-    ...mapState(useUserStore, ["isLoggedIn"]),
-    headerHeightClass() {
-      return {
-        "h-16": !this.isLoggedIn,
-        "h-32": this.isLoggedIn,
-      };
-    },
-  },
-  methods: {
-    ...mapActions(useUserStore, ["loginUser"]),
-  },
-};
+const userStore = useUserStore();
+const loginUser = userStore.loginUser;
+const isLoggedIn = computed(() => userStore.isLoggedIn);
+
+const headerHeightClass = computed(() => ({
+  "h-16": !isLoggedIn.value,
+  "h-32": isLoggedIn.value,
+}));
+
+const menuItems = ref([
+  { text: "Teams", url: "/teams" },
+  { text: "Locations", url: "/" },
+  { text: "Life at Alkis Corp", url: "/" },
+  { text: "Students", url: "/" },
+  { text: "Jobs", url: "/jobs/results" },
+]);
 </script>
