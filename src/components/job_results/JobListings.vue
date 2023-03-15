@@ -37,14 +37,17 @@ import { computed, onMounted } from "vue";
 import { useRoute } from "vue-router";
 
 import JobListing from "@/components/job_results/JobListing.vue";
+import { useDegreesStore } from "@/stores/degrees";
 import { useJobsStore } from "@/stores/jobs";
 
 import usePreviousAndNextPages from "@/composables/usePreviousAndNextPages";
 
 const jobsStore = useJobsStore();
 const route = useRoute();
+const degreesStore = useDegreesStore();
 
 onMounted(jobsStore.FETCH_JOBS);
+onMounted(degreesStore.FETCH_DEGREES);
 
 const currentPage = computed(() =>
   Number.parseInt((route.query.page as string) || "1")
@@ -52,7 +55,6 @@ const currentPage = computed(() =>
 const FILTERED_JOBS = computed(() => jobsStore.FILTERED_JOBS);
 
 const maxPage = computed(() => Math.ceil(FILTERED_JOBS.value.length / 10));
-
 const { previousPage, nextPage } = usePreviousAndNextPages(
   currentPage,
   maxPage
